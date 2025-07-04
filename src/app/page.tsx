@@ -3,11 +3,21 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BalanceCard } from '@/components/Dashboard/BalanceCard'
 import { useExpenses } from '@/hooks/useExpenses'
+import { useState } from 'react'
+import { TransactionForm } from '@/components/TransactionForm/TransactionForm'
 
 const queryClient = new QueryClient()
 
 function AppContent() {
-  const { expenses, totalBalance, totalIncome, totalExpenses } = useExpenses()
+  const { expenses, totalBalance, totalIncome, totalExpenses, addExpense } = useExpenses()
+  const [showForm, setShowForm] = useState<null | 'expense' | 'income'>(null)
+
+  const handleAdd = (type: 'expense' | 'income') => setShowForm(type)
+  const handleCancel = () => setShowForm(null)
+  const handleSubmit = (data: any) => {
+    addExpense(data)
+    setShowForm(null)
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 to-blue-600">
@@ -27,17 +37,25 @@ function AppContent() {
         <div className="flex gap-4 justify-center my-6">
           <button
             className="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-xl text-lg flex items-center gap-2"
-            onClick={() => alert('Add Expense clicked!')}
+            onClick={() => handleAdd('expense')}
           >
             <span className="text-2xl">&#8722;</span> Add Expense
           </button>
           <button
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-xl text-lg flex items-center gap-2"
-            onClick={() => alert('Add Income clicked!')}
+            onClick={() => handleAdd('income')}
           >
             <span className="text-2xl">&#43;</span> Add Income
           </button>
         </div>
+        
+        {showForm && (
+          <TransactionForm
+            type={showForm}
+            onSubmit={handleSubmit}
+            onCancel={handleCancel}
+          />
+        )}
         
         <div className="px-4">
           <h2 className="text-white font-semibold mb-4">Recent Transactions</h2>
