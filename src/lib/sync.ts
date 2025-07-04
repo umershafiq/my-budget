@@ -3,7 +3,7 @@ import { Expense } from '@/types'
 
 export class SyncService {
   private static instance: SyncService
-  private isOnline = navigator.onLine
+  private isOnline = true
 
   static getInstance(): SyncService {
     if (!SyncService.instance) {
@@ -13,14 +13,8 @@ export class SyncService {
   }
 
   constructor() {
-    window.addEventListener('online', () => {
-      this.isOnline = true
-      this.syncPendingExpenses()
-    })
-    
-    window.addEventListener('offline', () => {
-      this.isOnline = false
-    })
+    // Removed window event listeners for online/offline
+    // Online/offline sync is not supported in SSR/SSG environments
   }
 
   async addExpense(expense: Omit<Expense, 'id' | 'synced' | 'createdAt' | 'updatedAt'>): Promise<string> {
