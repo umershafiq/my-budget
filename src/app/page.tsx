@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { BiometricAuth } from '@/components/Auth/BiometricAuth'
+import dynamic from 'next/dynamic'
 import { BalanceCard } from '@/components/Dashboard/BalanceCard'
 import { useExpenses } from '@/hooks/useExpenses'
 import { AuthService } from '@/lib/auth'
 
 const queryClient = new QueryClient()
+
+const BiometricAuth = dynamic(() => import('@/components/Auth/BiometricAuth'), { ssr: false })
 
 function AppContent() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)

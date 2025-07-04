@@ -10,8 +10,6 @@ interface BiometricAuthProps {
   onAuthenticated: () => void
 }
 
-const DynamicBiometricAuth = dynamic(() => import('@/components/Auth/BiometricAuth'), { ssr: false })
-
 export function BiometricAuth({ onAuthenticated }: BiometricAuthProps) {
   const [isAuthenticating, setIsAuthenticating] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -81,3 +79,7 @@ export function BiometricAuth({ onAuthenticated }: BiometricAuthProps) {
     </div>
   )
 }
+
+const BiometricAuthDynamic = dynamic(() => Promise.resolve(BiometricAuth), { ssr: false })
+
+export default BiometricAuthDynamic
