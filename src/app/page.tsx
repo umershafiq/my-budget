@@ -1,43 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import dynamic from 'next/dynamic'
 import { BalanceCard } from '@/components/Dashboard/BalanceCard'
 import { useExpenses } from '@/hooks/useExpenses'
-import { AuthService } from '@/lib/auth'
 
 const queryClient = new QueryClient()
 
-const BiometricAuth = dynamic(() => import('@/components/Auth/BiometricAuth'), { ssr: false })
-
 function AppContent() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
   const { expenses, totalBalance, totalIncome, totalExpenses } = useExpenses()
-
-  useEffect(() => {
-    const authService = AuthService.getInstance()
-    const authenticated = authService.isUserAuthenticated()
-    setIsAuthenticated(authenticated)
-    setIsLoading(false)
-  }, [])
-
-  const handleAuthenticated = () => {
-    setIsAuthenticated(true)
-  }
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent"></div>
-      </div>
-    )
-  }
-
-  if (!isAuthenticated) {
-    return <BiometricAuth onAuthenticated={handleAuthenticated} />
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 to-blue-600">
