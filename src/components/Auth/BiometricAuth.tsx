@@ -1,13 +1,16 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Fingerprint, Shield } from 'lucide-react'
 import { AuthService } from '@/lib/auth'
+import dynamic from 'next/dynamic'
 
 interface BiometricAuthProps {
   onAuthenticated: () => void
 }
+
+const DynamicBiometricAuth = dynamic(() => import('@/components/Auth/BiometricAuth'), { ssr: false })
 
 export function BiometricAuth({ onAuthenticated }: BiometricAuthProps) {
   const [isAuthenticating, setIsAuthenticating] = useState(false)
@@ -32,6 +35,13 @@ export function BiometricAuth({ onAuthenticated }: BiometricAuthProps) {
       setIsAuthenticating(false)
     }
   }
+
+  useEffect(() => {
+    // This runs only on the client
+    if (window) {
+      // safe to use window
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center p-4">
