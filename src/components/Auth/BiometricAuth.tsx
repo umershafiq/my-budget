@@ -80,6 +80,4 @@ export function BiometricAuth({ onAuthenticated }: BiometricAuthProps) {
   )
 }
 
-const BiometricAuthDynamic = dynamic(() => Promise.resolve(BiometricAuth), { ssr: false })
-
-export default BiometricAuthDynamic
+export default BiometricAuth
