@@ -23,6 +23,22 @@ function AppContent() {
           totalExpenses={totalExpenses}
         />
         
+        {/* Add Expense and Add Income Buttons */}
+        <div className="flex gap-4 justify-center my-6">
+          <button
+            className="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-xl text-lg flex items-center gap-2"
+            onClick={() => alert('Add Expense clicked!')}
+          >
+            <span className="text-2xl">&#8722;</span> Add Expense
+          </button>
+          <button
+            className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-xl text-lg flex items-center gap-2"
+            onClick={() => alert('Add Income clicked!')}
+          >
+            <span className="text-2xl">&#43;</span> Add Income
+          </button>
+        </div>
+        
         <div className="px-4">
           <h2 className="text-white font-semibold mb-4">Recent Transactions</h2>
           {expenses.length === 0 ? (
